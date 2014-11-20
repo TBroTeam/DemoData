@@ -151,6 +151,12 @@ INSERT INTO allowed_parameters
 COMMIT;
 EOF
 
+# set the environment variable to allow database access without password entry
+export PGPASSWORD="$WORKER_ENV_DB_PW"
+
+# run psql and commit the entries to the worker database
+psql --host=WORKER --port=$WORKER_PORT_5432_TCP_PORT --username=$WORKER_ENV_DB_USER $WORKER_ENV_DB_NAME < /tmp/input.sql
+
 ### Call this manually with a valid feature_id
 # FEATUREID=
 # tbro-db feature add_synonym -f $FEATUREID --synonym 'InterestingTranscript' -b '[[publication/1ec511cfe178d54ff2ce82043ae958538/iimog]]' -u 'tbro' -t symbol -k 79595d0d12b7667344dd6d326fc7ba42
