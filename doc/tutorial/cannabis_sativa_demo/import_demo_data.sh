@@ -68,24 +68,6 @@ tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $A
 
 #phing queue-install-db
 
-#-- database files available. name is the name it will be referenced by, md5 is the zip file's sum, download_uri specifies where the file can be retreived
-#INSERT INTO database_files
-# (name, md5, download_uri) VALUES
-# ('cannabis_sativa_transcriptome.fasta', '1f87bbeee5a623e6d2f8cab8f68c9726',
-# 'http://yourdomain/location/cannabis_sativa_transcriptome.zip'),
-# ('cannabis_sativa_predpep.fasta', 'b2ab466c7bfb7d41c27a89cf40837fb4',
-# 'http://yourdomain/location/cannabis_sativa_predpep.zip');
-#
-#-- contains information which program is available for which program.
-#-- additionally, 'availability_filter' can be used to e.g. restrict use for a organism-release combination
-#INSERT INTO program_database_relationships
-# (programname, database_name, availability_filter) VALUES
-# ('blastn','cannabis_sativa_transcriptome.fasta', '13_1.CasaPuKu'),
-# ('blastp','cannabis_sativa_predpep.fasta', '13_1.CasaPuKu'),
-# ('blastx','cannabis_sativa_predpep.fasta', '13_1.CasaPuKu'),
-# ('tblastn','cannabis_sativa_transcriptome.fasta', '13_1.CasaPuKu'),
-# ('tblastx','cannabis_sativa_transcriptome.fasta', '13_1.CasaPuKu');
-#
 
 ### Call this manually with a valid feature_id
 # FEATUREID=
