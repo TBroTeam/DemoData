@@ -87,9 +87,9 @@ INSERT INTO programs (name) VALUES
 INSERT INTO database_files
  (name, md5, download_uri) VALUES
  ('cannabis_sativa_transcriptome.fasta', '${MD5SUM_TRANSCRIPTS}',
- 'ftp://WORKER/cannabis_sativa_transcriptome.zip'),
+ 'ftp://WORKERFTP/cannabis_sativa_transcriptome.zip'),
  ('cannabis_sativa_predpep.fasta', '${MD5SUM_PROTEINS}',
- 'ftp://WORKER/cannabis_sativa_predpep.zip');
+ 'ftp://WORKERFTP/cannabis_sativa_predpep.zip');
 
 -- contains information which program is available for which program.
 -- additionally, 'availability_filter' can be used to e.g. restrict use for a organism-release combination
