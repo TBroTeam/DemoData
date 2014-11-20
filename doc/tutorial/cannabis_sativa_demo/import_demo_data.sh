@@ -68,6 +68,9 @@ tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $A
 
 #phing queue-install-db
 
+# generate zip md5sums
+MD5SUM_TRANSCRIPTS=$(md5sum blast/cannabis_sativa_transcriptome.zip | cut -f 1 -d " ")
+MD5SUM_PROTEINS=$(md5sum blast/cannabis_sativa_predpep.zip | cut -f 1 -d " ")
 
 ### Call this manually with a valid feature_id
 # FEATUREID=
