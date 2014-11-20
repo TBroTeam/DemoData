@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ORGANISM=$(tbro-db organism insert --genus Cannabis --species sativa --common_name Weed --abbreviation C.sativa --short)
 # tbro-db organism list
 
