@@ -29,44 +29,145 @@ tbro-import annotation_mapman --organism_id $ORGANISM --release 1.CasaPuKu analy
 tbro-db biomaterial insert --name Flower
 tbro-db biomaterial insert --name Leaf
 tbro-db biomaterial insert --name Root
+tbro-db biomaterial insert --name Stem
+tbro-db biomaterial insert --name Shoot
 
 # Add conditions
 tbro-db biomaterial add_condition --name Flower.mature --parent_biomaterial_name Flower
+tbro-db biomaterial add_condition --name Flower.buds --parent_biomaterial_name Flower
+tbro-db biomaterial add_condition --name Flower.pre --parent_biomaterial_name Flower
+tbro-db biomaterial add_condition --name Flower.early --parent_biomaterial_name Flower
+tbro-db biomaterial add_condition --name Flower.mid --parent_biomaterial_name Flower
 tbro-db biomaterial add_condition --name Leaf.mature --parent_biomaterial_name Leaf
+tbro-db biomaterial add_condition --name Leaf.young --parent_biomaterial_name Leaf
 tbro-db biomaterial add_condition --name Root.entire --parent_biomaterial_name Root
+tbro-db biomaterial add_condition --name Root.full --parent_biomaterial_name Root
+tbro-db biomaterial add_condition --name Stem.petiole --parent_biomaterial_name Stem
+tbro-db biomaterial add_condition --name Stem.primary --parent_biomaterial_name Stem
+tbro-db biomaterial add_condition --name Shoot.full --parent_biomaterial_name Shoot
 
 # Add samples
-tbro-db biomaterial add_condition_sample --name Flower.mature_L1 --parent_condition_name Flower.mature
-tbro-db biomaterial add_condition_sample --name Flower.mature_L2 --parent_condition_name Flower.mature
-tbro-db biomaterial add_condition_sample --name Flower.mature_L3 --parent_condition_name Flower.mature
+tbro-db biomaterial add_condition_sample --name Flower.pre_L1 --parent_condition_name Flower.pre
+tbro-db biomaterial add_condition_sample --name Flower.early_L1 --parent_condition_name Flower.early
+tbro-db biomaterial add_condition_sample --name Flower.mid_L1 --parent_condition_name Flower.mid
+tbro-db biomaterial add_condition_sample --name Root.full_L1 --parent_condition_name Root.full
+tbro-db biomaterial add_condition_sample --name Shoot.full_L1 --parent_condition_name Shoot.full
 tbro-db biomaterial add_condition_sample --name Leaf.mature_L1 --parent_condition_name Leaf.mature
 tbro-db biomaterial add_condition_sample --name Leaf.mature_L2 --parent_condition_name Leaf.mature
 tbro-db biomaterial add_condition_sample --name Leaf.mature_L3 --parent_condition_name Leaf.mature
+tbro-db biomaterial add_condition_sample --name Leaf.young_L1 --parent_condition_name Leaf.young
+tbro-db biomaterial add_condition_sample --name Leaf.young_L2 --parent_condition_name Leaf.young
+tbro-db biomaterial add_condition_sample --name Leaf.young_L3 --parent_condition_name Leaf.young
+tbro-db biomaterial add_condition_sample --name Flower.mature_L1 --parent_condition_name Flower.mature
+tbro-db biomaterial add_condition_sample --name Flower.mature_L2 --parent_condition_name Flower.mature
+tbro-db biomaterial add_condition_sample --name Flower.mature_L3 --parent_condition_name Flower.mature
+tbro-db biomaterial add_condition_sample --name Flower.buds_L1 --parent_condition_name Flower.buds
+tbro-db biomaterial add_condition_sample --name Flower.buds_L2 --parent_condition_name Flower.buds
+tbro-db biomaterial add_condition_sample --name Flower.buds_L3 --parent_condition_name Flower.buds
 tbro-db biomaterial add_condition_sample --name Root.entire_L1 --parent_condition_name Root.entire
 tbro-db biomaterial add_condition_sample --name Root.entire_L2 --parent_condition_name Root.entire
 tbro-db biomaterial add_condition_sample --name Root.entire_L3 --parent_condition_name Root.entire
+tbro-db biomaterial add_condition_sample --name Stem.primary_L1 --parent_condition_name Stem.primary
+tbro-db biomaterial add_condition_sample --name Stem.primary_L2 --parent_condition_name Stem.primary
+tbro-db biomaterial add_condition_sample --name Stem.petiole_L1 --parent_condition_name Stem.petiole
+tbro-db biomaterial add_condition_sample --name Stem.petiole_L2 --parent_condition_name Stem.petiole
 
 # Add contact
 CONTACT=$(tbro-db contact insert --name TBroDemo --description 'TBro Demo User' --short)
 
 #Add experiments 
-ASSAY=$(tbro-db assay insert --name SRX082027 --operator_id $CONTACT --short)
+ASSAY_M=$(tbro-db assay insert --name Michigan --operator_id $CONTACT --short)
+ASSAY_T=$(tbro-db assay insert --name Toronto --operator_id $CONTACT --short)
 
 # Add acquisitions (corresponding to experiments)
-ACQUISITION=$(tbro-db acquisition insert --name SRX082027 --assay_id $ASSAY --short)
+ACQUISITION_M=$(tbro-db acquisition insert --name Michigan --assay_id $ASSAY_M --short)
+ACQUISITION_T=$(tbro-db acquisition insert --name Toronto --assay_id $ASSAY_T --short)
 
 # Add analyses 
-ANALYSIS_EXP=$(tbro-db analysis insert --name RSEM_TMM --program RSEM --programversion 1.2.5 --sourcename Mapping --description 'RSEM quantification with subsequent TMM normalization' --short)
-ANALYSIS_DIF=$(tbro-db analysis insert --name DESeq_isoform --program DESeq --programversion 1.12.1 --sourcename Mapping_isoform --short)
+ANALYSIS_EXP_RSEM=$(tbro-db analysis insert --name RSEM-1.2.19_TMM --program RSEM --programversion 1.2.19 --sourcename Mapping --description 'RSEM 1.2.19 quantification with subsequent TMM normalization' --short)
+ANALYSIS_EXP_SAIL=$(tbro-db analysis insert --name sailfish-0.6.3_TMM --program sailfish --programversion 0.6.3 --sourcename Mapping --description 'sailfish 0.6.3 quantification with subsequent TMM normalization' --short)
+ANALYSIS_DIF=$(tbro-db analysis insert --name DESeq-1.18.0_isoform --program DESeq --programversion 1.18.0 --sourcename Mapping_isoform --short)
 
 # Add quantifications
-QUANTIFICATION=$(tbro-db quantification insert --name RSEM_SRX082027 --acquisition_id $ACQUISITION --analysis_id $ANALYSIS_EXP --short)
+QUANTIFICATION_T_R=$(tbro-db quantification insert --name Toronto_RSEM --acquisition_id $ACQUISITION_T --analysis_id $ANALYSIS_EXP_RSEM --short)
+QUANTIFICATION_T_S=$(tbro-db quantification insert --name Toronto_sailfish --acquisition_id $ACQUISITION_T --analysis_id $ANALYSIS_EXP_SAIL --short)
+QUANTIFICATION_M_R=$(tbro-db quantification insert --name Michigan_RSEM --acquisition_id $ACQUISITION_M --analysis_id $ANALYSIS_EXP_RSEM --short)
+QUANTIFICATION_M_S=$(tbro-db quantification insert --name Michigan_sailfish --acquisition_id $ACQUISITION_M --analysis_id $ANALYSIS_EXP_SAIL --short)
 
-tbro-import expressions -o $ORGANISM -r 1.CasaPuKu -q $QUANTIFICATION -a $ANALYSIS_EXP analyses/rsem/rsem_aggregated_TMM.edit.mat
+tbro-import expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu -q $QUANTIFICATION_T_R -a $ANALYSIS_EXP_RSEM analyses/expression/toronto.rsem.countmat.TMM.tsv
+tbro-import expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu -q $QUANTIFICATION_T_S -a $ANALYSIS_EXP_SAIL analyses/expression/toronto.sailfish.countmat.TMM.tsv
+tbro-import expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu -q $QUANTIFICATION_M_R -a $ANALYSIS_EXP_RSEM analyses/expression/michigan.rsem.countmat.TMM.tsv
+tbro-import expressions -o $ORGANISM -r 1.CasaPuKu -q $QUANTIFICATION_M_S -a $ANALYSIS_EXP_SAIL analyses/expression/michigan.sailfish.countmat.TMM.tsv
 
-tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION -A Flower.mature -B Leaf.mature analyses/rsem/rsem_aggregated_TMM_diff_FvsL.mat
-tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION -A Flower.mature -B Root.entire analyses/rsem/rsem_aggregated_TMM_diff_FvsR.mat
-tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION -A Root.entire -B Leaf.mature analyses/rsem/rsem_aggregated_TMM_diff_RvsL.mat
+# Diffexp toronto RSEM
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Root.full -B Shoot.full analyses/expression/diffexp/toronto.rsem.TMM_Root.full_Shoot.full.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Root.full -B Flower.pre analyses/expression/diffexp/toronto.rsem.TMM_Root.full_Flower.pre.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Root.full -B Flower.early analyses/expression/diffexp/toronto.rsem.TMM_Root.full_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Root.full -B Flower.mid analyses/expression/diffexp/toronto.rsem.TMM_Root.full_Flower.mid.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Shoot.full -B Flower.pre analyses/expression/diffexp/toronto.rsem.TMM_Shoot.full_Flower.pre.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Shoot.full -B Flower.early analyses/expression/diffexp/toronto.rsem.TMM_Shoot.full_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Shoot.full -B Flower.mid analyses/expression/diffexp/toronto.rsem.TMM_Shoot.full_Flower.mid.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Flower.pre -B Flower.early analyses/expression/diffexp/toronto.rsem.TMM_Flower.pre_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Flower.pre -B Flower.mid analyses/expression/diffexp/toronto.rsem.TMM_Flower.pre_Flower.mid.tsv
+tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_R -A Flower.early -B Flower.mid analyses/expression/diffexp/toronto.rsem.TMM_Flower.early_Flower.mid.tsv
+
+# Diffexp toronto sailfish
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Root.full -B Shoot.full analyses/expression/diffexp/toronto.sailfish.TMM_Root.full_Shoot.full.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Root.full -B Flower.pre analyses/expression/diffexp/toronto.sailfish.TMM_Root.full_Flower.pre.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Root.full -B Flower.early analyses/expression/diffexp/toronto.sailfish.TMM_Root.full_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Root.full -B Flower.mid analyses/expression/diffexp/toronto.sailfish.TMM_Root.full_Flower.mid.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Shoot.full -B Flower.pre analyses/expression/diffexp/toronto.sailfish.TMM_Shoot.full_Flower.pre.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Shoot.full -B Flower.early analyses/expression/diffexp/toronto.sailfish.TMM_Shoot.full_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Shoot.full -B Flower.mid analyses/expression/diffexp/toronto.sailfish.TMM_Shoot.full_Flower.mid.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Flower.pre -B Flower.early analyses/expression/diffexp/toronto.sailfish.TMM_Flower.pre_Flower.early.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Flower.pre -B Flower.mid analyses/expression/diffexp/toronto.sailfish.TMM_Flower.pre_Flower.mid.tsv
+tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_T_S -A Flower.early -B Flower.mid analyses/expression/diffexp/toronto.sailfish.TMM_Flower.early_Flower.mid.tsv
+
+# Diffexp michigan RSEM
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Stem.primary analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Stem.primary.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Stem.petiole analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Stem.petiole.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Leaf.young analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Leaf.mature analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Flower.buds analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Root.entire -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Root.entire_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.primary -B Stem.petiole analyses/expression/diffexp/michigan.rsem.TMM_Stem.primary_Stem.petiole.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.primary -B Leaf.young analyses/expression/diffexp/michigan.rsem.TMM_Stem.primary_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.primary -B Leaf.mature analyses/expression/diffexp/michigan.rsem.TMM_Stem.primary_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.primary -B Flower.buds analyses/expression/diffexp/michigan.rsem.TMM_Stem.primary_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.primary -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Stem.primary_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.petiole -B Leaf.young analyses/expression/diffexp/michigan.rsem.TMM_Stem.petiole_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.petiole -B Leaf.mature analyses/expression/diffexp/michigan.rsem.TMM_Stem.petiole_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.petiole -B Flower.buds analyses/expression/diffexp/michigan.rsem.TMM_Stem.petiole_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Stem.petiole -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Stem.petiole_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Leaf.young -B Leaf.mature analyses/expression/diffexp/michigan.rsem.TMM_Leaf.young_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Leaf.young -B Flower.buds analyses/expression/diffexp/michigan.rsem.TMM_Leaf.young_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Leaf.young -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Leaf.young_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Leaf.mature -B Flower.buds analyses/expression/diffexp/michigan.rsem.TMM_Leaf.mature_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Leaf.mature -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Leaf.mature_Flower.mature.tsv
+tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_R -A Flower.buds -B Flower.mature analyses/expression/diffexp/michigan.rsem.TMM_Flower.buds_Flower.mature.tsv
+
+# Diffexp michigan sailfish
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Stem.primary analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Stem.primary.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Stem.petiole analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Stem.petiole.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Leaf.young analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Leaf.mature analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Flower.buds analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Root.entire -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Root.entire_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.primary -B Stem.petiole analyses/expression/diffexp/michigan.sailfish.TMM_Stem.primary_Stem.petiole.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.primary -B Leaf.young analyses/expression/diffexp/michigan.sailfish.TMM_Stem.primary_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.primary -B Leaf.mature analyses/expression/diffexp/michigan.sailfish.TMM_Stem.primary_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.primary -B Flower.buds analyses/expression/diffexp/michigan.sailfish.TMM_Stem.primary_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.primary -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Stem.primary_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.petiole -B Leaf.young analyses/expression/diffexp/michigan.sailfish.TMM_Stem.petiole_Leaf.young.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.petiole -B Leaf.mature analyses/expression/diffexp/michigan.sailfish.TMM_Stem.petiole_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.petiole -B Flower.buds analyses/expression/diffexp/michigan.sailfish.TMM_Stem.petiole_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Stem.petiole -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Stem.petiole_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Leaf.young -B Leaf.mature analyses/expression/diffexp/michigan.sailfish.TMM_Leaf.young_Leaf.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Leaf.young -B Flower.buds analyses/expression/diffexp/michigan.sailfish.TMM_Leaf.young_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Leaf.young -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Leaf.young_Flower.mature.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Leaf.mature -B Flower.buds analyses/expression/diffexp/michigan.sailfish.TMM_Leaf.mature_Flower.buds.tsv
+tbro-import differential_expressions --skip-materialize-views -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Leaf.mature -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Leaf.mature_Flower.mature.tsv
+tbro-import differential_expressions -o $ORGANISM -r 1.CasaPuKu --analysis_id $ANALYSIS_DIF -q $QUANTIFICATION_M_S -A Flower.buds -B Flower.mature analyses/expression/diffexp/michigan.sailfish.TMM_Flower.buds_Flower.mature.tsv
 
 #phing queue-install-db
 
