@@ -1,0 +1,9 @@
+* TBro Demo Data (/Cannabis sativa/)
+** Material and Methods
+ - Data obtained from [[http://www.ncbi.nlm.nih.gov/][NCBI]]
+ - For instructions on how the analyses were performed see our [[https://github.com/TBroTeam/Tutorial][Tutorial]].
+** Bibliography
+*** Original data published in
+Harm van Bakel et al. “The draft genome and transcriptome of Cannabis sativa.”
+In: Genome biology 12.10 (Jan. 2011), R102. issn: 1465-6914. doi: 10.1186/gb-
+2011-12-10-r102. url: http://genomebiology.com/2011/12/10/R102.
